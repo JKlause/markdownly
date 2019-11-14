@@ -9,7 +9,7 @@ function Preview({ markdown }) {
 }
 
 Preview.propTypes = {
-  markdown: PropTypes.string.isRequired
+  markdown: PropTypes.string
 };
 
 export default Preview;

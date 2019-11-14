@@ -5,35 +5,39 @@ import { connect } from 'react-redux';
 import Preview from '../components/markdown/Preview';
 import Editor from '../components/markdown/Editor';
 import styles from './Document.css';
-import Tabs from '../components/markdown/Tabs';
 
-import { sendMarkdownUpdate } from '../actions/documentActions';
-import { getMarkdown } from '../selectors/documentSelectors';
+import { updateHistory } from '../actions/saveMarkdownActions';
 
-const Document = ({ markdown, updateMarkdown }) => {
+import { getCurrentIndex, getHistoryArray } from '../selectors/saveMarkdownSelectors';
+
+const Document = ({ historyArray, currentIndex, updateMarkdown }) => {
+  let currentBody = '';
+  if(historyArray[currentIndex]) currentBody = historyArray[currentIndex].body;
+
   return (
     <>
-      <Tabs arrayTabs={['thing', 'thing']} />
       <div className={styles.Document}>
-        <Editor markdown={markdown} updateMarkdown={updateMarkdown} />
-        <Preview markdown={markdown} />
+        <Editor markdown={currentBody} updateMarkdown={updateMarkdown} />
+        <Preview markdown={currentBody} />
       </div>
     </>
   );
 };
 
 Document.propTypes = {
-  markdown: PropTypes.string.isRequired,
+  currentIndex: PropTypes.number.isRequired,
+  historyArray: PropTypes.array.isRequired,
   updateMarkdown: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  markdown: getMarkdown(state)
+  currentIndex: getCurrentIndex(state),
+  historyArray: getHistoryArray(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateMarkdown({ target }) {
-    dispatch(sendMarkdownUpdate(target.value));
+    dispatch(updateHistory(target.value));
   }
 });
 
@@ -46,25 +50,3 @@ export default DocumentContainer;
 
 
 
-// export default class Document extends PureComponent {
-//   state = {
-//     markdown: '# Hi there'
-//   };
-
-//   updateMarkdown = ({ target }) => {
-//     this.setState({ markdown: target.value });
-//   };
-
-//   render() {
-//     const { markdown } = this.state;
-//     return (
-//       <>
-//         <Tabs arrayTabs={['thing', 'thing']}/>
-//         <div className={styles.Document}>
-//           <Editor markdown={markdown} updateMarkdown={this.updateMarkdown} />
-//           <Preview markdown={markdown} />
-//         </div>
-//       </>
-//     );
-//   }
-// }
