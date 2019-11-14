@@ -5,30 +5,29 @@ import { connect } from 'react-redux';
 import Preview from '../components/markdown/Preview';
 import Editor from '../components/markdown/Editor';
 import styles from './Document.css';
-import Tabs from '../components/markdown/Tabs';
 
 import { sendMarkdownUpdate } from '../actions/documentActions';
-import { getMarkdown } from '../selectors/documentSelectors';
+import { getCurrentBody } from '../selectors/documentSelectors';
 
-const Document = ({ markdown, updateMarkdown }) => {
+const Document = ({ currentBody, updateMarkdown }) => {
+  
   return (
     <>
-      <Tabs arrayTabs={['thing', 'thing']} />
       <div className={styles.Document}>
-        <Editor markdown={markdown} updateMarkdown={updateMarkdown} />
-        <Preview markdown={markdown} />
+        <Editor markdown={currentBody} updateMarkdown={updateMarkdown} />
+        <Preview markdown={currentBody} />
       </div>
     </>
   );
 };
 
 Document.propTypes = {
-  markdown: PropTypes.string.isRequired,
+  currentBody: PropTypes.string,
   updateMarkdown: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  markdown: getMarkdown(state)
+  currentBody: getCurrentBody(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -46,25 +45,3 @@ export default DocumentContainer;
 
 
 
-// export default class Document extends PureComponent {
-//   state = {
-//     markdown: '# Hi there'
-//   };
-
-//   updateMarkdown = ({ target }) => {
-//     this.setState({ markdown: target.value });
-//   };
-
-//   render() {
-//     const { markdown } = this.state;
-//     return (
-//       <>
-//         <Tabs arrayTabs={['thing', 'thing']}/>
-//         <div className={styles.Document}>
-//           <Editor markdown={markdown} updateMarkdown={this.updateMarkdown} />
-//           <Preview markdown={markdown} />
-//         </div>
-//       </>
-//     );
-//   }
-// }
