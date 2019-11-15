@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const HtmlPlugin = require('html-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 
