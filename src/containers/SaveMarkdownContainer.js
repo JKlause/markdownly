@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SaveMarkdown from '../components/markdown/SaveMarkdown';
 
@@ -10,40 +9,17 @@ import { getTabName, getHistoryArray, getTitleSearch } from '../selectors/saveMa
 import { newHistory } from '../actions/saveMarkdownActions';
 import { switchBody } from '../actions/documentActions';
 
-const SaveMarkdownContainer = ({ handleAdd, handleChange, tabName, titleSearch, historyArray }) => {
-  return (
-    <SaveMarkdown 
-      handleAdd={handleAdd} 
-      handleChange={handleChange} 
-      tabName={tabName} 
-      titleSearch={titleSearch}
-      historyArray={historyArray}
-    />
-  );
-};
+const SaveMarkdownContainer = () => {
+  const tabName = useSelector(state => getTabName(state));
+  const historyArray = useSelector(state => getHistoryArray(state));
+  const titleSearch = useSelector(state => getTitleSearch(state));
 
-SaveMarkdownContainer.propTypes = {
-  handleAdd: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  tabName: PropTypes.string.isRequired,
-  titleSearch: PropTypes.string,
-  historyArray: PropTypes.array.isRequired
-};
-
-
-
-const mapStateToProps = (state) => ({
-  tabName: getTabName(state),
-  historyArray: getHistoryArray(state),
-  titleSearch: getTitleSearch(state)
-});
-
-const mapDispatchToProps = dispatch => ({
-  handleChange({ target }) {
+  const dispatch = useDispatch();
+  const handleChange = ({ target }) => {
     if(target.name === 'add') dispatch(sendTabName(target.value));
     else dispatch(sendTitleSearch(target.value));
-  },
-  handleAdd(name, historyArray) {
+  };
+  const handleAdd = (name, historyArray) => {
     let newName = name;
     if(historyArray.length > 0) {
       for(let i = 0; i < historyArray.length; i++) {
@@ -56,14 +32,19 @@ const mapDispatchToProps = dispatch => ({
     dispatch(switchBody('', historyArray.length));
     dispatch(newHistory(newName, ''));
     localStorage.setItem('history', JSON.stringify(historyArray));
-  },
-});
+  };
 
-const SaveMarkdownContainerContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SaveMarkdownContainer);
+  return (
+    <SaveMarkdown 
+      handleAdd={handleAdd} 
+      handleChange={handleChange} 
+      tabName={tabName} 
+      titleSearch={titleSearch}
+      historyArray={historyArray}
+    />
+  );
+};
 
-export default SaveMarkdownContainerContainer;
+export default SaveMarkdownContainer;
 
 
