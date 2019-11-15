@@ -1,6 +1,9 @@
-export const MARKDOWN_UPDATE = 'MARKDOWN_UPDATE';
+export const SWITCH_BODY = 'SWITCH_BODY';
 
-export const sendMarkdownUpdate = markdown => ({
-  type: MARKDOWN_UPDATE,
-  payload: markdown
+export const switchBody = (body, index)=> ({
+  type: SWITCH_BODY,
+  payload: body,
+  index: index
 });
+
+
