@@ -10,16 +10,3 @@ export default function AppContainer() {
 
   return <App landingPage={landingPage} />;
 }
-
-
-
-
-// const mapStateToProps = state => ({
-//   landingPage: getLandingPage(state)
-// });
-
-// const AppContainer = connect(
-//   mapStateToProps
-// )(App);
-
-// export default AppContainer;
