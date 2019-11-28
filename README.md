@@ -1,9 +1,6 @@
 # Markdownly
 
-We currently have a markdown editor that allows our customers to edit markdown
-files and see a preview. The editor is becoming more popular and we have several
-feature requests asking us to allow users to edit multiple markdown files at once.
-Think the sheets 3in Google sheets or excel.
+Made by Joe, Allison, and Maeve
 
 **For clarification see the Customer Success Team.**
 
